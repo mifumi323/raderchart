@@ -2,7 +2,7 @@
 
 バージョン：1.0.1
 制作者：美文
-URL：https://tgws.plus/
+URL：https://tgws.plus/dl/raderchart/
 
 【概要】
 簡単なレーダーチャートを描画します。組み込んで使います。
@@ -27,5 +27,7 @@ https://github.com/mifumi323/raderchart
 【履歴】
 1.0.1
 　オープンソース化したぞ！
+　サンプルが環境によって動かないのを修正したぞ！
+　改行コードをLFにしたぞ！
 1.0.0
 　公開したぞ！
