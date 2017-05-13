@@ -13,7 +13,9 @@ $data = array(
 
 // 描画先のイメージを生成します
 $image = imagecreatetruecolor(300, 300);
-if (function_exists('imageantialias')) imageantialias($image, true);
+if (function_exists('imageantialias')) {
+    imageantialias($image, true);
+}
 $background = imagecolorallocate($image, 0xee, 0xee, 0xee);
 imagefill($image, 0, 0, $background);
 

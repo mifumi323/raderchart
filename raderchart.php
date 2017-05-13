@@ -8,40 +8,63 @@
 class RaderChart
 {
     private $radius;
-    private $x, $y;
+    private $x;
+    private $y;
     private $max;
 
-    private $axis_r, $axis_g, $axis_b, $axis_a;
-    private $graph_fill_r, $graph_fill_g, $graph_fill_b, $graph_fill_a;
-    private $graph_line_r, $graph_line_g, $graph_line_b, $graph_line_a;
+    private $axis_r;
+    private $axis_g;
+    private $axis_b;
+    private $axis_a;
+    private $graph_fill_r;
+    private $graph_fill_g;
+    private $graph_fill_b;
+    private $graph_fill_a;
+    private $graph_line_r;
+    private $graph_line_g;
+    private $graph_line_b;
+    private $graph_line_a;
 
-    private $text_font, $text_size, $text_margin, $text_r, $text_g, $text_b, $text_a;
+    private $text_font;
+    private $text_size;
+    private $text_margin;
+    private $text_r;
+    private $text_g;
+    private $text_b;
+    private $text_a;
 
     // 半径を指定して構築
-    public function __construct($radius) {
+    public function __construct($radius)
+    {
         $this->radius = $radius;
     }
 
     // レーダーチャートの中心
-    public function SetPosition($x, $y) {
+    public function SetPosition($x, $y)
+    {
         $this->x = $x;
         $this->y = $y;
     }
 
     // 半径内に描かれる最大値(これ以上の値ははみ出します)
-    public function SetMax($max) {
+    public function SetMax($max)
+    {
         $this->max = $max;
     }
 
     // 補助線を一度に設定
     //  $guide: value, r, g, b, aをキーとする連想配列の配列
-    public function SetGuide($guide) {
+    public function SetGuide($guide)
+    {
         $this->guide = $guide;
     }
 
     // 補助線を個別に追加
-    public function AddGuide($value, $r, $g, $b, $a=0) {
-        if (!isset($this->guide)) $this->guide = array();
+    public function AddGuide($value, $r, $g, $b, $a=0)
+    {
+        if (!isset($this->guide)) {
+            $this->guide = array();
+        }
         $this->guide[] = array(
             'value' => $value,
             'r' => $r, 'g' => $g, 'b' => $b, 'a' => $a,
@@ -49,8 +72,11 @@ class RaderChart
     }
 
     // 軸の塗りつぶし色
-    public function AddGuideFill($value, $r, $g, $b, $a, $fr, $fg, $fb, $fa) {
-        if (!isset($this->guide)) $this->guide = array();
+    public function AddGuideFill($value, $r, $g, $b, $a, $fr, $fg, $fb, $fa)
+    {
+        if (!isset($this->guide)) {
+            $this->guide = array();
+        }
         $this->guide[] = array(
             'value' => $value,
              'r' =>  $r,  'g' =>  $g,  'b' =>  $b,  'a' =>  $a,
@@ -59,7 +85,8 @@ class RaderChart
     }
 
     // 軸の線色
-    public function SetGraphAxis($r, $g, $b, $a=0) {
+    public function SetGraphAxis($r, $g, $b, $a=0)
+    {
         $this->axis_r = $r;
         $this->axis_g = $g;
         $this->axis_b = $b;
@@ -67,7 +94,8 @@ class RaderChart
     }
 
     // グラフ本体の塗りつぶし色
-    public function SetGraphFill($r, $g, $b, $a=0) {
+    public function SetGraphFill($r, $g, $b, $a=0)
+    {
         $this->graph_fill_r = $r;
         $this->graph_fill_g = $g;
         $this->graph_fill_b = $b;
@@ -75,7 +103,8 @@ class RaderChart
     }
 
     // グラフ本体の線色
-    public function SetGraphLine($r, $g, $b, $a=0) {
+    public function SetGraphLine($r, $g, $b, $a=0)
+    {
         $this->graph_line_r = $r;
         $this->graph_line_g = $g;
         $this->graph_line_b = $b;
@@ -87,7 +116,8 @@ class RaderChart
     //  $size:   大きさ
     //  $margin: 周りの余白
     //  $r～$a:  色
-    public function SetFont($font, $size, $margin, $r, $g, $b, $a=0) {
+    public function SetFont($font, $size, $margin, $r, $g, $b, $a=0)
+    {
         $this->text_font = $font;
         $this->text_size = $size;
         $this->text_margin = $margin;
@@ -100,18 +130,23 @@ class RaderChart
     // 指定の画像上に描画
     //  $image: 画像リソース
     //  $data:  軸名と値の連想配列
-    public function Draw($image, $data) {
-        if (count($data)<3) return;
+    public function Draw($image, $data)
+    {
+        if (count($data)<3) {
+            return;
+        }
 
         $cx = $this->x>0?$this->x:imagesx($image)/2;
         $cy = $this->y>0?$this->y:imagesy($image)/2;
 
         if ($this->max>0) {
             $max = $this->max;
-        }else {
+        } else {
             $max = 1;
             foreach ($data as $value) {
-                if ($max<$value) $max = $value;
+                if ($max<$value) {
+                    $max = $value;
+                }
             }
         }
 
@@ -192,24 +227,39 @@ class RaderChart
         }
     }
 
-    private function ToAngle($i, $count) {
+    private function ToAngle($i, $count)
+    {
         return 2.0*M_PI*$i/$count;
     }
 
-    private function Polar2XY($r, $t, $ox=0, $oy=0) {
+    private function Polar2XY($r, $t, $ox=0, $oy=0)
+    {
         return array(
             (int)((+sin($t))*$r)+$ox,
             (int)((-cos($t))*$r)+$oy,
         );
     }
 
-    private function AllocateColor($image, $r, $g, $b, $a) {
-        if (!isset($image)) return false;
-        if (!isset($r)) return false;
-        if (!isset($g)) return false;
-        if (!isset($b)) return false;
-        if (!isset($a)) return false;
-        if ($a>=127) return false;
+    private function AllocateColor($image, $r, $g, $b, $a)
+    {
+        if (!isset($image)) {
+            return false;
+        }
+        if (!isset($r)) {
+            return false;
+        }
+        if (!isset($g)) {
+            return false;
+        }
+        if (!isset($b)) {
+            return false;
+        }
+        if (!isset($a)) {
+            return false;
+        }
+        if ($a>=127) {
+            return false;
+        }
         return imagecolorallocatealpha($image, $r, $g, $b, $a);
     }
 }
